@@ -71,7 +71,7 @@ const orderExists = (req, res, next) => {
 }
 
 const statusPropertyIsValid = (req, res, next) => {
-    const status = req.locals.order.status;
+    const { data: { status } = {} } = req.body;
     const validStatus = ["pending", "preparing", "out-for-delivery"];
     if (validStatus.includes(status)) {
         return next();
