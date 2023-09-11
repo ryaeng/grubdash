@@ -33,6 +33,18 @@ const dishExists = (req, res, next) => {
     });
 }
 
+const idPropertyIsValid = (req, res, next) => {
+    const { dishId } = req.params;
+    const { data: { id } } = req.body;
+    if (id && dishId !== id) {
+        return next({
+            status: 400,
+            message: `Dish id does not match route id. Dish: ${id}, Route: ${dishId}`,
+        });
+    }
+    return next();
+}
+
 const priceIsValidNumber = (req, res, next) => {
     const { data: { price } = {} } = req.body;
     if (price <= 0 || !Number.isInteger(price)) {
@@ -66,15 +78,8 @@ const read = (req, res) => {
 }
 
 const update = (req, res, next) => {
-    const { dishId } = req.params;
     const dish = res.locals.dish;
-    const { data: { id, name, description, price, image_url } = {} } =  req.body;
-    if (id && dishId !== id) {
-        return next({
-            status: 400,
-            message: `Dish id does not match route id. Dish: ${id}, Route: ${dishId}`,
-        });
-    }
+    const { data: { name, description, price, image_url } = {} } =  req.body;
 
     // Update the dish
     dish.name = name;
@@ -105,6 +110,7 @@ module.exports = {
         bodyDataHas("description"),
         bodyDataHas("price"),
         bodyDataHas("image_url"),
+        idPropertyIsValid,
         priceIsValidNumber,
         update,
     ],
