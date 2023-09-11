@@ -139,7 +139,6 @@ module.exports = {
     create: [
         bodyDataHas("deliverTo"),
         bodyDataHas("mobileNumber"),
-        bodyDataHas("status"),
         bodyDataHas("dishes"),
         dishesPropertyIsValid,
         dishQuantityPropertyIsValidNumber,
@@ -161,6 +160,7 @@ module.exports = {
         bodyDataHas("status"),
         bodyDataHas("dishes"),
         idPropertyIsValid,
+        dishQuantityPropertyIsValidNumber,
         statusPropertyIsValid,
         update
     ]
