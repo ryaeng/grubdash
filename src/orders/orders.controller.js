@@ -100,6 +100,20 @@ const create = (req, res) => {
     res.status(201).json({ data: newOrder });
 }
 
+const destroy = (req, res, next) => {
+    const { orderId } = req.params;
+    const order = res.locals.order;
+    if (order.status === "pending") {
+        const index = orders.indexOf((order) => order.id === orderId)
+        const deletedOrders = orders.splice(index, 1);
+        res.sendStatus(204);
+    }
+    next({
+        status: 400,
+        message: `An order cannot be deleted unless it is pending.`,
+    });
+}
+
 const list = (req, res) => {
     res.json({ data: orders });
 }
@@ -130,6 +144,10 @@ module.exports = {
         dishesPropertyIsValid,
         dishQuantityPropertyIsValidNumber,
         create
+    ],
+    delete: [
+        orderExists,
+        destroy
     ],
     list,
     read: [
