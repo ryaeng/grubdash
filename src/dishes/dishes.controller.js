@@ -20,6 +20,19 @@ const bodyDataHas = (propertyName) => {
     }
 }
 
+const dishExists = (req, res, next) => {
+    const { dishId } = req.params;
+    foundDish = dishes.find((dish) => dish.id === dishId);
+    if (foundDish) {
+        res.locals.dish = foundDish;
+        return next();
+    }
+    next({
+        status: 404,
+        message: `Dish id not found: ${dishId}`,
+    });
+}
+
 const priceIsValidNumber = (req, res, next) => {
     const { data: { price } = {} } = req.body;
     if (price <= 0 || !Number.isInteger(price)) {
@@ -45,7 +58,11 @@ const create = (req, res) => {
 }
 
 const list = (req, res) => {
-    res.json({ data: { dishes } });
+    res.json({ data: dishes });
+}
+
+const read = (req, res) => {
+    res.json({ data: res.locals.dish });
 }
 
 module.exports = {
@@ -55,7 +72,11 @@ module.exports = {
         bodyDataHas("price"),
         bodyDataHas("image_url"),
         priceIsValidNumber,
-        create
+        create,
     ],
     list,
+    read: [
+        dishExists,
+        read
+    ],
 }
