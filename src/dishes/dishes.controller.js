@@ -7,7 +7,7 @@ const dishes = require(path.resolve("src/data/dishes-data"));
 const nextId = require("../utils/nextId");
 
 // TODO: Implement the /dishes handlers needed to make the tests pass
-const bodyDataHas = (propertyName) => {
+function bodyDataHas(propertyName) {
     return (req, res, next) => {
         const { data = {} } = req.body;
         if (data[propertyName] && data[propertyName] !== "") {

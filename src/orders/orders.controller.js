@@ -7,7 +7,7 @@ const orders = require(path.resolve("src/data/orders-data"));
 const nextId = require("../utils/nextId");
 
 // TODO: Implement the /orders handlers needed to make the tests pass
-const bodyDataHas = (propertyName) => {
+function bodyDataHas(propertyName) {
     return (req, res, next) => {
         const { data = {} } = req.body;
         if (data[propertyName] && data[propertyName] !== "") {
