@@ -132,7 +132,7 @@ const update = (req, res) => {
     order.status = status;
     order.dishes = dishes;
 
-    res.status(201).json({ data: order });
+    res.json({ data: order });
 }
 
 module.exports = {
