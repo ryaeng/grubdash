@@ -27,7 +27,7 @@ const dishesPropertyIsValid = (req, res, next) => {
     }
     next({
         status: 400,
-        message: `Order must include one dish`,
+        message: `Order must include at least one dish`,
     });
 }
 
@@ -160,6 +160,7 @@ module.exports = {
         bodyDataHas("status"),
         bodyDataHas("dishes"),
         idPropertyIsValid,
+        dishesPropertyIsValid,
         dishQuantityPropertyIsValidNumber,
         statusPropertyIsValid,
         update
