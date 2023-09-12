@@ -35,14 +35,14 @@ const dishQuantityPropertyIsValidNumber = (req, res, next) => {
     const { data: { dishes } = {} } = req.body;
     for (let index = 0; index < dishes.length; index++) {
         const quantity = dishes[index].quantity;
-        if (quantity && quantity > 0 && Number.isInteger(quantity)) {
-            return next()
+        if (!quantity || quantity <= 0 || !Number.isInteger(quantity)) {
+            return next({
+                status: 400,
+                message: `Dish ${index} must have a quantity that is an integer greater than 0`,
+            });
         }
-        next({
-            status: 400,
-            message: `Dish ${index} must have a quantity that is an integer greater than 0`,
-        });
     }
+    next();
 }
 
 const idPropertyIsValid = (req, res, next) => {
